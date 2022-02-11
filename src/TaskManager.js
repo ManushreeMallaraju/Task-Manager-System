@@ -24,8 +24,6 @@ function TaskManager() {
     })
   }, [])
 
-
-
   return (
     <div className='taskManager'>
       <header>Task Manager</header>
