@@ -2,7 +2,7 @@ import './task.css'
 import { useState } from 'react'
 import TaskItem from './TaskItem'
 import EditTask from './EditTask'
-import { doc, updateDoc } from 'firebase/firestore'
+import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { db } from './firebase'
 
 function Task({ id, title, description, completed }) {
@@ -28,8 +28,17 @@ function Task({ id, title, description, completed }) {
       alert(err)
     }
   }
-  /* function to delete a document from firstore */
 
+  /* function to delete a document from firstore */
+  const handleDeleteTask = async (e) => {
+    e.preventDefault();
+    const docRef = doc(db, 'tasks', id)
+    try {
+      await deleteDoc(docRef);
+    } catch (err) {
+      alert(err)
+    }
+  }
   return (
     <div className={`task ${checked && 'task--borderColor'}`}>
       <div>
@@ -56,7 +65,7 @@ function Task({ id, title, description, completed }) {
               onClick={() => setOpen({ ...open, edit: true })}>
               Edit
             </button>
-            <button className='task__deleteButton'>Delete</button>
+            <button onClick={handleDeleteTask} className='task__deleteButton'>Delete</button>
           </div>
           <button
             onClick={() => setOpen({ ...open, view: true })}>
